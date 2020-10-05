@@ -869,3 +869,38 @@ func (b *Bitcoind) KevaListNamespaces() (entries []NamespaceEntry, err error) {
 	err = json.Unmarshal(r.Result, &entries)
 	return
 }
+
+// KevaPut  - Put the value of the given key.
+func (b *Bitcoind) KevaPut(namespace string, key string, value string) (result PutResult, err error) {
+	r, err := b.client.call("keva_put", []interface{}{namespace, key, value})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &result)
+	return
+}
+
+// KevaGet  - Get the value of the given key.
+func (b *Bitcoind) KevaGet(namespace string, key string) (value ValueResult, err error) {
+	r, err := b.client.call("keva_get", []interface{}{namespace, key})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &value)
+	return
+}
+
+// KevaFilter  - List key-value pairs in a given namespace.
+// namespace   (string) namespace Id
+// regexp      (string, optional) filter keys with this regexp - Perl regexp syntax.
+// maxage      (numeric, optional, default=96000) only consider names updated in the last "maxage" blocks; 0 means all names
+// from        (numeric, optional, default=0) return from this position onward; index starts at 0
+// nb          (numeric, optional, default=0) return only "nb" entries; 0 means all
+func (b *Bitcoind) KevaFilter(namespace string, regexp string, maxage int, from int, nb int) (results []ValueResult, err error) {
+	r, err := b.client.call("keva_filter", []interface{}{namespace, regexp, maxage, from, nb})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &results)
+	return
+}
