@@ -859,3 +859,13 @@ func (b *Bitcoind) GetWalletInfo() (i WalletInfo, err error) {
 	err = json.Unmarshal(r.Result, &i)
 	return
 }
+
+// NamespaceEntry  - List all the namespaces owned by this wallet.
+func (b *Bitcoind) NamespaceEntry() (entries []NamespaceEntry, err error) {
+	r, err := b.client.call("keva_list_namespaces", nil)
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &entries)
+	return
+}
