@@ -860,8 +860,8 @@ func (b *Bitcoind) GetWalletInfo() (i WalletInfo, err error) {
 	return
 }
 
-// NamespaceEntry  - List all the namespaces owned by this wallet.
-func (b *Bitcoind) NamespaceEntry() (entries []NamespaceEntry, err error) {
+// KevaListNamespaces  - List all the namespaces owned by this wallet.
+func (b *Bitcoind) KevaListNamespaces() (entries []NamespaceEntry, err error) {
 	r, err := b.client.call("keva_list_namespaces", nil)
 	if err = handleError(err, &r); err != nil {
 		return
