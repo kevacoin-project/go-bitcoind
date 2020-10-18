@@ -1,5 +1,11 @@
 package bitcoind
 
+// CreateResult - result returned from keva_namespace
+type CreateResult struct {
+	TxID        string `json:"txid"`
+	NamespaceID string `json:"namespaceId"`
+}
+
 // NamespaceEntry - namespace info
 type NamespaceEntry struct {
 	NamespaceID string `json:"namespaceId"`

@@ -860,6 +860,16 @@ func (b *Bitcoind) GetWalletInfo() (i WalletInfo, err error) {
 	return
 }
 
+// KevaCreateNamespace - Create a namespace.
+func (b *Bitcoind) KevaCreateNamespace(displayName string) (result CreateResult, err error) {
+	r, err := b.client.call("keva_namespace", []interface{}{displayName})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &result)
+	return
+}
+
 // KevaListNamespaces  - List all the namespaces owned by this wallet.
 func (b *Bitcoind) KevaListNamespaces() (entries []NamespaceEntry, err error) {
 	r, err := b.client.call("keva_list_namespaces", nil)
